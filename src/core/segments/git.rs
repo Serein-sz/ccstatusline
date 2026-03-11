@@ -46,7 +46,7 @@ impl Segment for GitSegment {
         self.icon.to_string()
     }
 
-    async fn view(&self, config: &InputData) -> String {
+    async fn view(&self, config: &InputData) -> Option<String> {
         let working_dir = &config.workspace.project_dir;
         let mut view = String::new();
         if let Some(branch) = self.get_branch(working_dir) {
@@ -62,9 +62,9 @@ impl Segment for GitSegment {
                 }
             )
             .unwrap();
-            return view.to_string();
+            return Some(view.to_string());
         }
-        "detached".to_string()
+        None
     }
 }
 

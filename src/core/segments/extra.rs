@@ -28,10 +28,10 @@ impl Segment for ExtraSegment {
         self.icon.to_string()
     }
 
-    async fn view(&self, config: &InputData) -> String {
+    async fn view(&self, config: &InputData) -> Option<String> {
         match config.model.display_name.as_str() {
-            "MiniMax-M2.5" => fetch_usage().await,
-            _ => "".to_string(),
+            "MiniMax-M2.5" => Some(fetch_usage().await),
+            _ => None,
         }
     }
 }

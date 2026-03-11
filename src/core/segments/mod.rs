@@ -15,17 +15,19 @@ pub trait Segment: Send + Sync {
     where
         Self: Sized;
 
-    async fn view(&self, config: &InputData) -> String;
+    async fn view(&self, config: &InputData) -> Option<String>;
     fn icon(&self) -> String;
     fn get_shader(&self) -> Option<Style>;
     fn id(&self) -> SegmentId;
 
     async fn render(&self, config: &InputData) -> String {
-        let view = format!("{} {}", self.icon(), self.view(config).await);
-        if let Some(shader) = self.get_shader() {
-            return shader.paint(view).to_string();
-        }
-        view
+        if let Some(view) = self.view(config).await {
+            let view_text = format!("{} {}", self.icon(), view);
+            if let Some(shader) = self.get_shader() {
+                return shader.paint(view_text).to_string();
+            }
+        };
+        "".to_string()
     }
 }
 

@@ -26,7 +26,7 @@ impl Segment for DirectorySegment {
         self.icon.to_string()
     }
 
-    async fn view(&self, config: &InputData) -> String {
+    async fn view(&self, config: &InputData) -> Option<String> {
         let path = &config.workspace.current_dir;
         // Handle both Unix and Windows separators by trying both
         let unix_name = path.split('/').next_back().unwrap_or("");
@@ -49,6 +49,6 @@ impl Segment for DirectorySegment {
         } else {
             result.to_string()
         };
-        view
+        Some(view)
     }
 }

@@ -27,7 +27,7 @@ impl Segment for ModelSegment {
         self.icon.to_string()
     }
 
-    async fn view(&self, config: &InputData) -> String {
-        config.model.display_name.to_string()
+    async fn view(&self, config: &InputData) -> Option<String> {
+        Some(config.model.display_name.to_string())
     }
 }
