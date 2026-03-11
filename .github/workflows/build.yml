@@ -12,6 +12,7 @@ jobs:
   build:
     name: Build ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30  # 全局超时
     strategy:
       matrix:
         include:
@@ -27,16 +28,6 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             output_name: ccstatusline-windows-amd64.exe
-          # 可选：Linux ARM64
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-            output_name: ccstatusline-linux-arm64
-            use_cross: true
-          # 可选：静态链接 musl
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-            output_name: ccstatusline-linux-amd64-musl
-            use_cross: true
 
     steps:
       - name: Checkout
