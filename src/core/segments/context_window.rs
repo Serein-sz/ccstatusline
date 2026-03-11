@@ -29,9 +29,9 @@ impl Segment for ContextWindowSegment {
 
     async fn view(&self, config: &InputData) -> Option<String> {
         let context_window = config.context_window.as_ref().unwrap();
-        let used_percentage = context_window.used_percentage.unwrap();
+        let used_percentage = context_window.used_percentage.unwrap_or_default();
         let context_window_size =
-            (context_window.context_window_size.unwrap() * used_percentage / 100) / 1000;
+            (context_window.context_window_size.unwrap_or_default() * used_percentage / 100) / 1000;
         Some(format!("{}% · {}k tokens", used_percentage, context_window_size))
     }
 }

@@ -8,6 +8,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config: InputData = serde_json::from_reader(stdin.lock())?;
 
     println!("{}", StatusLine::generate(&config).await);
-
     Ok(())
 }
