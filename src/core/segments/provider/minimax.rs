@@ -4,6 +4,7 @@ use std::time::{Duration, Instant};
 use tokio::sync::RwLock;
 
 use crate::model::ApiResponse;
+use crate::utils::loader::load_api_key;
 
 // 缓存结构
 struct CacheEntry {
@@ -143,9 +144,28 @@ pub async fn init_global_client(api_key: impl Into<String>) {
 }
 
 pub async fn fetch_usage() -> String {
-    let client = GLOBAL_CLIENT.read().await;
-    match client.as_ref() {
-        Some(c) => c.fetch_usage().await,
-        None => "not initialized".to_string(),
+    // 懒初始化：如果未初始化，则读取 API key 并初始化
+    {
+        let client = GLOBAL_CLIENT.read().await;
+        if client.is_some() {
+            return client.as_ref().unwrap().fetch_usage().await;
+        }
+    } // 释放读锁
+
+    // 读取 API key
+    let api_key = load_api_key();
+    if api_key.is_empty() {
+        return "API key not found".to_string();
+    }
+
+    // 获取写锁并初始化
+    let mut client = GLOBAL_CLIENT.write().await;
+    *client = Some(UsageClient::new(api_key));
+
+    // 获取写锁后再次检查（可能其他任务已初始化）
+    if let Some(c) = client.as_ref() {
+        c.fetch_usage().await
+    } else {
+        "init failed".to_string()
     }
 }
