@@ -18,15 +18,19 @@ jobs:
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            use_cross: false
             output_name: ccstatusline-linux-amd64
           - os: macos-latest
             target: x86_64-apple-darwin
+            use_cross: false
             output_name: ccstatusline-darwin-amd64
-          - os: macos-latest
+          - os: macos-26
             target: aarch64-apple-darwin
+            use_cross: false
             output_name: ccstatusline-darwin-arm64
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+            use_cross: false
             output_name: ccstatusline-windows-amd64.exe
 
     steps:
