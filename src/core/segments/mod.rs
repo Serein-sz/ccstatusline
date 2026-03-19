@@ -11,7 +11,7 @@ use crate::model::{InputData, SegmentId};
 
 #[async_trait]
 pub trait Segment: Send + Sync {
-    fn new() -> Box<dyn Segment>
+    fn create() -> Box<dyn Segment>
     where
         Self: Sized;
 

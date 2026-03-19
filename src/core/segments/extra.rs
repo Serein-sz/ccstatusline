@@ -10,7 +10,7 @@ pub struct ExtraSegment {
 
 #[async_trait]
 impl Segment for ExtraSegment {
-    fn new() -> Box<dyn Segment + 'static> {
+    fn create() -> Box<dyn Segment + 'static> {
         Box::new(Self {
             icon: "\u{f135}".to_string(),
         })

@@ -28,7 +28,7 @@ pub struct GitSegment {
 
 #[async_trait]
 impl Segment for GitSegment {
-    fn new() -> Box<dyn Segment + 'static> {
+    fn create() -> Box<dyn Segment + 'static> {
         Box::new(Self {
             icon: "\u{f02a2}".to_string(),
         })
@@ -74,16 +74,15 @@ impl GitSegment {
             .args(["--no-optional-locks", "branch", "--show-current"])
             .current_dir(working_dir)
             .output()
+            && output.status.success()
         {
-            if output.status.success() {
-                let branch = String::from_utf8(output.stdout)
-                    .ok()
-                    .unwrap()
-                    .trim()
-                    .to_string();
-                if !branch.is_empty() {
-                    return Some(branch);
-                }
+            let branch = String::from_utf8(output.stdout)
+                .ok()
+                .unwrap()
+                .trim()
+                .to_string();
+            if !branch.is_empty() {
+                return Some(branch);
             }
         }
 
@@ -91,8 +90,7 @@ impl GitSegment {
             .args(["--no-optional-locks", "symbolic-ref", "--short", "HEAD"])
             .current_dir(working_dir)
             .output()
-        {
-            if output.status.success() {
+            && output.status.success() {
                 let branch = String::from_utf8(output.stdout)
                     .ok()
                     .unwrap()
@@ -102,7 +100,6 @@ impl GitSegment {
                     return Some(branch);
                 }
             }
-        }
         None
     }
 

@@ -8,7 +8,7 @@ pub struct DirectorySegment {
 }
 #[async_trait]
 impl Segment for DirectorySegment {
-    fn new() -> Box<dyn Segment + 'static> {
+    fn create() -> Box<dyn Segment + 'static> {
         Box::new(Self {
             icon: "\u{f024b}".to_string(),
         })

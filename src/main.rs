@@ -48,7 +48,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 根据 --debug 标志选择输入源
     let config = if cli.debug {
-        let expanded = expand_tilde(&default_debug_path());
+        let expanded = expand_tilde(default_debug_path());
 
         eprintln!("🔧 Debug: reading from {}", expanded.display());
 

@@ -9,7 +9,7 @@ pub struct ContextWindowSegment {
 
 #[async_trait]
 impl Segment for ContextWindowSegment {
-    fn new() -> Box<dyn Segment + 'static> {
+    fn create() -> Box<dyn Segment + 'static> {
         Box::new(Self {
             icon: "\u{f1c0}".to_string(),
         })

@@ -32,23 +32,21 @@ impl UsageClient {
         // 先检查缓存
         {
             let cache_read = self.cache.read().await;
-            if let Some(entry) = cache_read.as_ref() {
-                if entry.timestamp.elapsed() < self.ttl {
+            if let Some(entry) = cache_read.as_ref()
+                && entry.timestamp.elapsed() < self.ttl {
                     // 缓存有效，直接返回
                     return entry.value.clone();
                 }
-            }
         } // 读锁在这里释放
 
         // 缓存无效，获取写锁并重新请求
         let mut cache_write = self.cache.write().await;
 
         // 双重检查（可能其他任务已更新）
-        if let Some(entry) = cache_write.as_ref() {
-            if entry.timestamp.elapsed() < self.ttl {
+        if let Some(entry) = cache_write.as_ref()
+            && entry.timestamp.elapsed() < self.ttl {
                 return entry.value.clone();
             }
-        }
 
         // 执行真实请求
         let value = self.do_fetch().await;

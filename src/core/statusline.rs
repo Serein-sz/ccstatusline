@@ -7,11 +7,11 @@ pub struct StatusLine {}
 impl StatusLine {
     pub async fn generate(config: &InputData) -> String {
         let active_segments: Vec<Box<dyn Segment>> = vec![
-            ModelSegment::new(),
-            DirectorySegment::new(),
-            GitSegment::new(),
-            ContextWindowSegment::new(),
-            ExtraSegment::new(),
+            ModelSegment::create(),
+            DirectorySegment::create(),
+            GitSegment::create(),
+            ContextWindowSegment::create(),
+            ExtraSegment::create(),
         ];
         
         let segments: Vec<String> =

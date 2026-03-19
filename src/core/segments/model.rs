@@ -9,7 +9,7 @@ pub struct ModelSegment {
 
 #[async_trait]
 impl Segment for ModelSegment {
-    fn new() -> Box<dyn Segment + 'static> {
+    fn create() -> Box<dyn Segment + 'static> {
         Box::new(Self {
             icon: "\u{e26d}".to_string(),
         })
