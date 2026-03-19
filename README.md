@@ -44,6 +44,9 @@ cargo build --release
 
 # Run with JSON input
 cargo run --release -- < input.json
+
+# Run with debug output
+cargo run --release -- --debug < input.json
 ```
 
 ## Dependencies
