@@ -62,15 +62,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let stdin = io::stdin();
         serde_json::from_reader::<_, InputData>(stdin.lock())?
     };
-    let out_path = &default_debug_path();
-
-    // 确保父目录存在
-    if let Some(parent) = out_path.parent() {
-        tokio::fs::create_dir_all(parent).await?;
-    }
-
-    let json = serde_json::to_vec_pretty(&config)?;
-    tokio::fs::write(&out_path, json).await?;
     let stdout = io::stdout();
     writeln!(&stdout, "{}", StatusLine::generate(&config).await)?;
 
