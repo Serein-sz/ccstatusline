@@ -2,6 +2,7 @@
 name = "ccstatusline"
 version = "0.1.8"
 edition = "2024"
+authors = ["wangqiang"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
