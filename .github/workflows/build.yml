@@ -12,7 +12,7 @@ jobs:
   build:
     name: Build ${{ matrix.target }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
+    timeout-minutes: 30  # 全局超时
     strategy:
       matrix:
         include:
@@ -20,10 +20,6 @@ jobs:
             target: x86_64-unknown-linux-gnu
             use_cross: false
             output_name: ccstatusline-linux-amd64
-          - os: ubuntu-latest
-            target: i686-unknown-linux-gnu
-            use_cross: true
-            output_name: ccstatusline-linux-x86
           - os: macos-latest
             target: x86_64-apple-darwin
             use_cross: false
@@ -138,13 +134,6 @@ jobs:
             **Linux (amd64)**
             ```bash
             curl -L -o ccstatusline https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/ccstatusline-linux-amd64
-            chmod +x ccstatusline
-            sudo mv ccstatusline /usr/local/bin/
-            ```
-
-            **Linux (x86)**
-            ```bash
-            curl -L -o ccstatusline https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/ccstatusline-linux-x86
             chmod +x ccstatusline
             sudo mv ccstatusline /usr/local/bin/
             ```
